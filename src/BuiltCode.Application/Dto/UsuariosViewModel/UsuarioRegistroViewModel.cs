@@ -19,6 +19,6 @@ namespace BuiltCode.Application.Dto.UsuariosViewModel
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [EnumDataType(typeof(EPerfil))]
-        public object Perfil { get; set; }
+        public EPerfil Perfil { get; set; }
     }
 }

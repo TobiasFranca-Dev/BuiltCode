@@ -10,7 +10,7 @@ namespace BuiltCode.Domain.Core.Data
     {
         IUnitOfWork UnitOfWork { get; }
 
-        Task Adicionar(TEntity entity);
+        Task<TEntity> Adicionar(TEntity entity);
         Task<TEntity> ObterPorId(Guid id);
         Task<List<TEntity>> ObterTodos();
         void Atualizar(TEntity entity);

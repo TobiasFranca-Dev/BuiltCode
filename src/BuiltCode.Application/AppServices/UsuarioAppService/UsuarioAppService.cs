@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using BuiltCode.Application.Dto.UsuariosViewModel;
 using BuiltCode.Domain.Core.Notifications;
+using BuiltCode.Domain.Models.UsuarioAggregate;
 using BuiltCode.Domain.Models.UsuarioAggregate.Enums;
-using BuiltCode.Domain.Services.Usuario;
+using BuiltCode.Domain.Services.UsuarioService;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,22 @@ namespace BuiltCode.Application.AppServices.UsuarioAppService
             _appSettings = appSettings.Value;
             _mapper = mapper;
         }
+
         public async Task<UsuarioListViewModel> Adicionar(UsuarioRegistroViewModel usuarioRegistro)
         {
-            return null;
+            var usuarioEmailExist = await _usuarioService.ObterPorEmail(usuarioRegistro.Email);
+
+            if(usuarioEmailExist != null)
+            {
+                Notificar("Email informado já cadastrado!");
+                return null;
+            }
+
+            usuarioRegistro.Senha = HashService.GerarHash(usuarioRegistro.Senha);
+
+            var usuario = _mapper.Map<Usuario>(usuarioRegistro);
+
+            return _mapper.Map<UsuarioListViewModel>(await _usuarioService.Cadastrar(usuario));             
         }
 
         public async Task<UserLoginResponseViewModel> Login(LoginViewModel viewModel)

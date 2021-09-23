@@ -41,7 +41,11 @@ namespace BuiltCode.Api.Controllers.V1
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Cadastrar(UsuarioRegistroViewModel viewModel)
         {
-            return CustomResponse();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            var result = await _usuarioAppService.Adicionar(viewModel);
+
+            return CustomResponse(result);
         }
     }
 }

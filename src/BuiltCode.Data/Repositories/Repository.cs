@@ -33,7 +33,8 @@ namespace BuiltCode.Data.Repositories
 
         public virtual async Task<TEntity> ObterPorId(Guid id)
         {
-            return await DbSet.FindAsync(id);
+            return await DbSet.AsNoTracking()
+                              .FirstOrDefaultAsync(x=> x.Id == id);
         }
 
         public async Task<IEnumerable<TEntity>> Buscar(Expression<Func<TEntity, bool>> predicate)
@@ -43,9 +44,11 @@ namespace BuiltCode.Data.Repositories
                               .ToListAsync();
         }
 
-        public virtual async Task Adicionar(TEntity entity)
+        public virtual async Task<TEntity> Adicionar(TEntity entity)
         {
             await DbSet.AddAsync(entity);
+            await UnitOfWork.Commint();
+            return entity;
         }
 
         public virtual void Atualizar(TEntity entity)

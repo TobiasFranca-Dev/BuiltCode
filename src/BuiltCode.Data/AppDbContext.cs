@@ -4,7 +4,6 @@ using BuiltCode.Domain.Models.PacienteAggregate;
 using BuiltCode.Domain.Models.ParceiroAggregate;
 using BuiltCode.Domain.Models.UsuarioAggregate;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,9 +15,9 @@ namespace BuiltCode.Data
         {
         }
 
-        public Task<bool> Commint()
+        public async Task<bool> Commint()
         {
-            throw new NotImplementedException();
+            return await base.SaveChangesAsync() > 0;
         }
 
         public DbSet<Medico> Medicos { get; set; }

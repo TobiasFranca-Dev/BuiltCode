@@ -20,6 +20,8 @@ namespace BuiltCode.Api.Configuration
             {
                 c.OperationFilter<SwaggerDefaultValues>();
 
+                //c.UseInlineDefinitionsForEnums();
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "Insira o token JWT desta maneira: Bearer {seu token}",
